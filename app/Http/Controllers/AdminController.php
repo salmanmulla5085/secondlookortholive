@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class AdminController extends Controller
 {
-        /**
+        /**sssss
      * Create a new controller instance.
      *
      * @return void
