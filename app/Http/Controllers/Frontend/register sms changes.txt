@@ -1,0 +1,53 @@
+in public function send_otp(Request $request)
+
+$check_otp = dbl_users::where('email_address', $user_registeration_data['email_address'])->where('otp', $otp)->first();
+                                
+                                if($check_otp != null)
+                                {
+                                    //update otp_validated
+                                    $res = null;
+                                    try
+                                    {
+                                    $res = DB::table("dbl_users")
+                                    ->where('otp',$otp)
+                                    ->where('email_address',$user_registeration_data['email_address'])
+                                    ->update(["otp_validated"=>"1","status"=>"Active"]);
+
+                                    }
+                                    catch(\Exception $e)
+                                    {
+                                        Log::error('error',["error"=>$e->getMessage()]);
+                                    }
+                                    if($res)
+                                    return redirect('/create-patient');
+                                    else
+                                    return redirect()->back()->withErrors(['otp' => 'OTP validation update failed'])->withInput();
+                                }
+
+
+
+index function                           
+=================================================     
+
+$message = $otp['otp'].' is your OTP to signup on SecondLookOrtho.';
+            $to = $data_row->phone_number;
+
+            $to = str_replace("(","",$to);
+            $to = str_replace(")","",$to);
+            $to = str_replace(" ","",$to);
+            $to = str_replace("-","",$to);
+            $to = '+91'.$to;
+            // dd($to);
+            try
+            {
+                if (sendSms($to, $message)) {
+                    Log::info("SMS sent successfully to :: patient_id=>".$data_row->id." Phone:=>".$data_row->phone_number);
+                } else {                
+                    Log::info("Failed to send SMS to :: patient_id".$data_row->id."Phone:".$data_row->phone_number);
+                    // return redirect('/register')->with('warning', 'Form submitted successfully!');
+                }
+            }   
+            catch(\Exception $e)
+            {
+                Log::error("SMS Failed:", ["error"=>$e->getMessage()]);
+            }

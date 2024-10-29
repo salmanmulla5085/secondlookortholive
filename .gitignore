@@ -1,0 +1,7 @@
+public/patient_photos/
+public/doctor_photos/
+public/patient_reports/
+public/article_images/
+.env
+sendgrid.env
+public/patient_reports/
