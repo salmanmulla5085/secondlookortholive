@@ -52,62 +52,6 @@ class ApiDoctorController extends Controller
         ]);
     }
 
-    public function SearchDoctor(Request $request)
-    {
-        // Extract the token from the request
-        
-        $token = $request->bearerToken();
-
-        // Get the user using AppointmentService
-        $user = $this->appointmentService->getUserFromToken($token);
-
-        if (!$user) {
-            return response()->json(['error' => 'Invalid token or user not found'], 401);
-        }
-
-        try {
-            $validatedData = $request->validate([
-                'search' => ['required'],
-            ]);
-
-            $SearchString = $request->search;
-            $data['SearchString'] = $SearchString;
-            
-            $stateId = UsState::getStateIdByName($SearchString);
-            $cityId = UsCity::getCityIdByName($SearchString);
-            
-            $doctor_query = DB::table('dbl_users')
-                ->where('user_type', 'doctor')
-                ->where('status', 'Active');
-
-            // Apply filters based on stateId, cityId, and SearchString
-            if (!empty($stateId)) {
-                $doctor_query->where('state', $stateId);
-            } elseif($SearchString && $SearchString != '') {
-                $doctor_query->where(function ($q) use ($SearchString) {
-                    $q->where('first_name', 'LIKE', '%' . $SearchString . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $SearchString . '%')
-                    ->orWhere('speciality', 'LIKE', '%' . $SearchString . '%');
-                });
-            } elseif (!empty($cityId) && $SearchString != 'Alex' && $SearchString != 'alex') {
-                $doctor_query->where('city', $cityId);
-            }
-
-            $doctorDataList = $doctor_query->get();  // You can change this logic if needed
-        
-            return response()->json([           
-                'result' => $doctorDataList,            
-                'debug_user'=> $user
-            ]);
-        } catch (ValidationException $e) {
-            // Return custom error response with error code 400
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->errors(),  // This will return the validation errors
-            ], 400); // You can adjust the error code here if needed
-        }
-    }
-
     public function getPatientList(Request $request)
     {
         // Extract the token from the request
@@ -803,6 +747,8 @@ class ApiDoctorController extends Controller
                     $patient = dbl_users::find($user['id']);
 
                     $stripeCustomerId = '';
+
+                    // echo'<pre>';print_r($patient['id']);die;
 
                     if($patient != '' && $patient['id'] > 0)
                     {

@@ -52,7 +52,6 @@ Route::get('/sanctum/csrf-cookie', [CsrfCookieController::class, 'show']);
 
 // api created by salman start
 Route::post('getDoctorList', [ApiDoctorController::class, 'getDoctorList']);
-Route::post('SearchDoctor', [ApiDoctorController::class, 'SearchDoctor']);
 Route::post('getPatientList', [ApiDoctorController::class, 'getPatientList']);
 Route::post('getPatientApp', [ApiDoctorController::class, 'getPatientApp']);
 Route::get('getConsultationPlan', [ApiDoctorController::class, 'getConsultationPlan']);
@@ -75,25 +74,11 @@ Route::post('ShowPayment',[ApiDoctorController::class,'ShowPayment']);
 Route::post('ResetPassword',[ApiDoctorController::class,'ResetPassword']);
 Route::post('UpdaterProfile',[ApiDoctorController::class,'UpdaterProfile']);
 
-Route::post('doctor_dashboard',[ApiDoctorDashboardController::class,'doctor_dashboard']);
-Route::post('patient_history',[ApiDoctorDashboardController::class,'patient_history']);
-Route::post('FilterOnDoctorDashboard',[ApiDoctorDashboardController::class,'FilterOnDoctorDashboard']);
+Route::post('getAppointmentDataByTypeForm/{record_type?}',[ApiDoctorDashboardController::class,'getAppointmentDataByStatus']);
 Route::post('getNotConfirmedAppintments',[ApiDoctorDashboardController::class,'not_confirmed_appintments']);
-Route::post('confirm_appointment_v3_post',[ApiDoctorDashboardController::class,'confirm_appointment_v3_post']);
 Route::post('getNewMessages',[ApiDoctorDashboardController::class,'getNewMessages']);
 Route::post('changeAppointmentStatus',[ApiDoctorDashboardController::class,'changeAppointmentStatus']);
 Route::post('confirmAppointment',[ApiDoctorDashboardController::class,'confirmAppointment']);
 Route::post('markAsCompleted',[ApiDoctorDashboardController::class,'save_doctor_prescription']);
 Route::post('modifyDoctorPrescription',[ApiDoctorDashboardController::class,'modifyDoctorPrescription']);
-Route::post('confirm_appointment_v2',[ApiDoctorDashboardController::class,'confirm_appointment_v2']);
-Route::post('GetReportReviewByDoctor',[ApiDoctorDashboardController::class,'GetReportReviewByDoctor']);
-Route::post('FilterOnReviewByDoctor',[ApiDoctorDashboardController::class,'FilterOnReviewByDoctor']);
-Route::post('doctorReplyOnReportReview',[ApiDoctorDashboardController::class,'doctorReplyOnReportReview']);
-Route::post('doctorModifyReplyOnReportReview',[ApiDoctorDashboardController::class,'doctorModifyReplyOnReportReview']);
-Route::post('getTimeSlotsEvents',[ApiDoctorDashboardController::class,'getTimeSlotsEvents']);
-Route::post('CreateTimeslotByDoctor',[ApiDoctorDashboardController::class,'CreateTimeslotByDoctor']);
-Route::post('deleteEvent',[ApiDoctorDashboardController::class,'deleteEvent']);
-Route::post('getMyCalenderEvents',[ApiDoctorDashboardController::class,'getMyCalenderEvents']);
-
-
 //end

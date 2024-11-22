@@ -41,9 +41,8 @@ class RegisterController extends Controller
                 'city' => ['required']
             ]); 
 
-           // If validation passes, redirect to /send_otp           
-        
-        //    $this->setSessionData('phone_number',$request->phone_number); 
+           // If validation passes, redirect to /send_otp                   
+           //    $this->setSessionData('phone_number',$request->phone_number); 
 
            $stateId = $request->state;
            $cityId =  $request->city;
@@ -52,7 +51,6 @@ class RegisterController extends Controller
            $city = UsCity::find($cityId);   
            $stateName = $state ? $state->STATE_NAME : null;
            //   $cityName = $city ? $city->CITY : null; 
-
            // Calculate timezone based on state (dummy implementation, customize as needed)
            $timezone = $this->getTimezoneByState($stateName);
            
